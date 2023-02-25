@@ -14,7 +14,7 @@ final class ViewModel: ObservableObject {
     private var client: OpenAISwift?
     
     func setup() {
-        client = OpenAISwift(authToken: "YOUR_API_KEY")
+        client = OpenAISwift(authToken: "API_KEY")
     }
     
     func send(text: String, completion: @escaping (String) -> Void) {
@@ -37,7 +37,7 @@ struct ContentView: View {
     @State var models = [String]()
     @State var synthesizer = AVSpeechSynthesizer()
     @State var mic = false
-   
+    @FocusState var focus:Bool
     var body: some View {
         
         NavigationView {
@@ -75,12 +75,20 @@ struct ContentView: View {
                                 }
                             }
                         }
+                        ToolbarItemGroup(placement: .keyboard) {
+                          
+                                Button("Done") {
+                                    focus = false
+                                }
+                            
+                        }
                     }
                 Spacer()
                     HStack {
                         TextEditor(text: $text)
-                            .frame(width: 300, height: 100)
+                            .frame(width: 300, height: 70)
                             .border(Color.secondary)
+                            .focused($focus)
                         
                         Button {
                             
