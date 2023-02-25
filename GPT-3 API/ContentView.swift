@@ -14,7 +14,7 @@ final class ViewModel: ObservableObject {
     private var client: OpenAISwift?
     
     func setup() {
-        client = OpenAISwift(authToken: "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")
+        client = OpenAISwift(authToken: "YOUR_API_KEY")
     }
     
     func send(text: String, completion: @escaping (String) -> Void) {
@@ -37,6 +37,7 @@ struct ContentView: View {
     @State var models = [String]()
     @State var synthesizer = AVSpeechSynthesizer()
     @State var mic = false
+   
     var body: some View {
         
         NavigationView {
@@ -82,13 +83,18 @@ struct ContentView: View {
                             .border(Color.secondary)
                         
                         Button {
-                            send()
+                            
+                  
+                                send()
                             
                                                       
                         } label: {
-                            Image(systemName: "paperplane.fill")
-                                .font(.title)
-                                .foregroundColor(.green)
+                   
+                                Image(systemName: "paperplane.fill")
+                                    .font(.title)
+                                    .foregroundColor(.green)
+                        
+                            
                         }
                         
                     }
@@ -110,11 +116,10 @@ struct ContentView: View {
         models.append("Me: \(text)")
         viewModel.send(text: text) { response in
             DispatchQueue.main.async {
-                
+       
                 self.models.append("ChatGPT: \(response)")
-               
                 self.text = ""
-                
+           
                 if mic {
                     let utterance = AVSpeechUtterance(string: "\(response)")
                     utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
@@ -122,7 +127,9 @@ struct ContentView: View {
                     
                     synthesizer.speak(utterance)
                 }
+              
             }
+          
         }
     }
 }
